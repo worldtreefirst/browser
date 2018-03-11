@@ -24,10 +24,6 @@
 #include <QDebug>
 #include <QList>
 
-#ifdef Q_OS_MACOS
-    #include "mac/MacOsEventListener.h"
-#endif
-
 #include "browserapplication.h"
 
 BrowserApplication::BrowserApplication(QObject *parent) : QObject(parent)
@@ -54,11 +50,15 @@ void BrowserApplication::load()
 
     qmlRegisterType<DownloadsModel>("core", 1, 0, "DownloadsModel");
 
+    #ifdef Q_OS_MACOS
+        initMacOsEventListener(&m_evListener);
+    #endif
+
     // Register context properties
     m_engine.rootContext()->setContextProperty("Settings", &m_settings);
     m_engine.rootContext()->setContextProperty("DarkThemeTimer", &m_darkThemeTimer);
     #ifdef Q_OS_MACOS
-        m_engine.rootContext()->setContextProperty("MacEvents", &evListener);
+        m_engine.rootContext()->setContextProperty("MacEvents", &m_evListener);
     #endif
 
     // setup qml imports

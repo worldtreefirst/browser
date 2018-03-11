@@ -38,10 +38,6 @@
 #include "browserapplication.h"
 
 
-#ifdef Q_OS_MACOS
-    #include "mac/MacOsEventListener.h"
-#endif
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -92,11 +88,6 @@ int main(int argc, char *argv[])
         }
         return 0;
     }
-
-    #ifdef Q_OS_MACOS
-        MacOsEventListener evListener;
-        initMacOsEventListener(&evListener);
-    #endif
 
     QtWebEngine::initialize();
 
